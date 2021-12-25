@@ -5,13 +5,15 @@
 #include <SPI.h>
 #include <SD.h>
 
+using namespace std;
+
 #define MPU6050_ADDR 0x68
 
 Adafruit_MPU6050 mpu;
 
 File workingfile;
 
-String fileName;  // Immer 'Logs:0000' hoch iteriert bis maximal 9999
+String fileName = "empty";  // Immer 'Logs0' wobei die 0 hochiteriert wird
 
 int step = 0;
 
@@ -67,69 +69,59 @@ void connect_SD(){
 }
 
 void iterate_file_name(){
-  File root = SD.open("/");
-  
-  String lastname = "";
+  int number = 0;
   while (true){
-    File entry = root.openNextFile();
-    if (! entry) {
-      break;  // no more files
+    fileName = "Logs";
+    fileName = fileName + String(number);
+    fileName = fileName + ".txt";
+    Serial.println(fileName);
+    if (!SD.exists(fileName)){
+      Serial.println("Iteriert bis: " + fileName);
+      break;
     }
-    Serial.print(entry.name());  // Zum testen
-    lastname = entry.name();
-  }
-  if (lastname == "" || lastname == "test.txt"){
-    fileName = "Logs:0000";
-    Serial.print("Erstes File angelegt");  // Zum testen
-  }else{
-    int file_number = lastname.charAt(5) * 1000 + lastname.charAt(6) * 100 + lastname.charAt(7) * 10 + lastname.charAt(8); // Ab stelle 5 kommt die Zahl und ist genau 4 stellen
-    Serial.print(file_number);  // Zum testen
-    file_number ++;
-    fileName = "Logs:" + file_number;
+    number ++;
   }
 }
 
 void add_table_head(){
   workingfile = SD.open(fileName, FILE_WRITE);
   if(workingfile){
-    Serial.println("Step,AccX,AccY,AccZ,GyrX,GyrY,GyrZ");
+    workingfile.println("Step,AccX,AccY,AccZ,GyrX,GyrY,GyrZ");
     workingfile.close();
   }else{
     Serial.println("Error while Writing table head.");
   }
 }
 
-void fill_test_file(){
+/*void fill_test_file(){
+  Serial.println("Writing to testfile.");
   workingfile = SD.open(fileName, FILE_WRITE);
   if(workingfile){
-    workingfile.println("This is a test file :)");
-    workingfile.println("testing 1, 2, 3.");
-    for (int i = 0; i < 20; i++) {
-      workingfile.println(i);
-    }
+    workingfile.println("Lorem ipsum!");
     workingfile.close();
+    Serial.println("Sucessfully written to " + fileName);
   }else{
     Serial.println("Error while Writing testfile.");
   }
-}
+}*/
 
 void data_to_sd(sensors_event_t *a, sensors_event_t *g){
   workingfile = SD.open(fileName, FILE_WRITE);
   if(workingfile){
-    Serial.print(step);
-    Serial.print(",");
-    Serial.print(a -> acceleration.x);
-    Serial.print(",");
-    Serial.print(a -> acceleration.y);
-    Serial.print(",");
-    Serial.print(a -> acceleration.z);
-    Serial.print(", ");
-    Serial.print(g ->gyro.x);
-    Serial.print(",");
-    Serial.print(g -> gyro.y);
-    Serial.print(",");
-    Serial.print(g -> gyro.z);
-    Serial.println("");
+    workingfile.print(step);
+    workingfile.print(",");
+    workingfile.print(a -> acceleration.x);
+    workingfile.print(",");
+    workingfile.print(a -> acceleration.y);
+    workingfile.print(",");
+    workingfile.print(a -> acceleration.z);
+    workingfile.print(", ");
+    workingfile.print(g ->gyro.x);
+    workingfile.print(",");
+    workingfile.print(g -> gyro.y);
+    workingfile.print(",");
+    workingfile.print(g -> gyro.z);
+    workingfile.println("");
     workingfile.close();
   }else{
     Serial.println("Error while Writing mpu data.");
@@ -137,21 +129,23 @@ void data_to_sd(sensors_event_t *a, sensors_event_t *g){
   step ++;
 }
 
-
 void setup() {
 
   start_serial();
+  
   connect_MPU();
   set_MPU();
 
   connect_SD();
   iterate_file_name();
-  fill_test_file();
+  // fill_test_file();
+  add_table_head();
 }
 
 void loop() {
-  // sensors_event_t a, g, temp;
-  // mpu.getEvent(&a, &g, &temp);
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
   // data_to_serial(&a, &g);
   // delay(20);
+  data_to_sd(&a, &g);
 }
