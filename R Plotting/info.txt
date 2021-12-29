@@ -1,0 +1,6 @@
+Information zu der Log Daten:
+
+Droptest 3 hatte ein Problem mit der SD Karte, wodurch fast keine Informationen gespeichert wurden.
+Droptest 2 und 5 enden beim Aufprall, weil sich die SD Karte gelöst hat.
+
+Somit bleiben Droptest 0,1,4,6 als nützliche Informationsquellen.

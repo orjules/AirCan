@@ -1,0 +1,31 @@
+Drop0 <- read.table("./MPULogs/PotsdamDropLogs/LOGS0.TXT",
+                    header = TRUE,
+                    sep = ",",
+                    dec = ".")
+
+plot(x = 1,                 
+     xlab = "Step", 
+     ylab = "AccX, AccY, AccZ",
+     xlim = c(800, 1200), 
+     ylim = c(-80, 80),
+     main = "Acceleration X,Y,Z",
+     type = "n")
+legend("topright", legend=c("AccX", "AccY", "AccZ"), 
+       col=c("blue", "red", "green"), pch=c(1,1,1), cex=0.8)
+lines(Drop0$Step, Drop0$AccX, col="blue")
+lines(Drop0$Step, Drop0$AccY, col="red")
+lines(Drop0$Step, Drop0$AccZ, col="green")
+
+plot(x = 1,                 
+     xlab = "Step", 
+     ylab = "GyrX, GyrY, GyrZ",
+     xlim = c(800, 1200), 
+     ylim = c(-10, 10),
+     main = "Gyro X,Y,Z",
+     type = "n")
+legend("topright", legend=c("GyrX", "GyrY", "GyrZ"), 
+       col=c("blue", "red", "green"), pch=c(1,1,1), cex=0.8)
+lines(Drop0$Step, Drop0$GyrX, col="blue")
+lines(Drop0$Step, Drop0$GyrY, col="red")
+lines(Drop0$Step, Drop0$GyrZ, col="green")
+

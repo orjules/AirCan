@@ -3,24 +3,35 @@ LogData <- read.table("./MPULogs/LOGS1.TXT",
                    sep = ",",
                    dec = ".")
 
+LogData <- read.table("./MPULogs/LOGS4.TXT",
+                      header = TRUE,
+                      sep = ",",
+                      dec = ".")
+
 plot(x = 1,                 
      xlab = "Step", 
      ylab = "AccX, AccY, AccZ",
-     xlim = c(0, 1200), 
-     ylim = c(-20, 20),
-     main = "Accelaratoin X,Y,Z",
+     xlim = c(0, 1550), 
+     ylim = c(-40, 40),
+     main = "Acceleration X,Y,Z",
      type = "n")
-points(LogData$Step, LogData$AccX, col="blue")
-points(LogData$Step, LogData$AccY, col="red")
-points(LogData$Step, LogData$AccZ, col="green")
+legend("topright", legend=c("AccX", "AccY", "AccZ"), 
+       col=c("blue", "red", "green"), pch=c(1,1,1), cex=0.8)
+lines(LogData$Step, LogData$AccX, col="blue")
+lines(LogData$Step, LogData$AccY, col="red")
+lines(LogData$Step, LogData$AccZ, col="green")
+
 
 plot(x = 1,                 
      xlab = "Step", 
      ylab = "GyrX, GyrY, GyrZ",
-     xlim = c(0, 1200), 
-     ylim = c(-10, 10),
+     xlim = c(0, 1550), 
+     ylim = c(-9, 9),
      main = "Gyro X,Y,Z",
      type = "n")
-points(LogData$Step, LogData$GyrX, col="blue")
-points(LogData$Step, LogData$GyrY, col="red")
-points(LogData$Step, LogData$GyrZ, col="green")
+legend("topright", legend=c("GyrX", "GyrY", "GyrZ"), 
+       col=c("blue", "red", "green"), pch=c(1,1,1), cex=0.8)
+lines(LogData$Step, LogData$GyrX, col="blue")
+lines(LogData$Step, LogData$GyrY, col="red")
+lines(LogData$Step, LogData$GyrZ, col="green")
+
