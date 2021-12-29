@@ -33,10 +33,10 @@ lines(Drop0$Step, Drop0$GyrZ, col="green")
 # Ganzer Ablauf
 plot(x = 1,                 
      xlab = "Step", 
-     ylab = "AccX, AccY, AccZ",
+     ylab = "AccX, AccY, AccZ in g",
      xlim = c(0, 4000), 
      ylim = c(-80, 80),
-     main = "Acceleration X,Y,Z",
+     main = "Acceleration Test 6",
      type = "n")
 legend("topright", legend=c("AccX", "AccY", "AccZ"), 
        col=c("blue", "red", "green"), pch=c(1,1,1), cex=0.8)
@@ -46,7 +46,7 @@ lines(Drop0$Step, Drop0$AccZ, col="green")
 
 plot(x = 1,                 
      xlab = "Step", 
-     ylab = "GyrX, GyrY, GyrZ",
+     ylab = "GyrX, GyrY, GyrZ in deg/s",
      xlim = c(0, 4000), 
      ylim = c(-10, 10),
      main = "Gyro X,Y,Z",
