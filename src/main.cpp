@@ -27,7 +27,7 @@ void start_serial(){
 }
 
 void connect_MPU(){
-  Serial.print("Initializing MPU card...");
+  Serial.print("Initializing MPU chip...");
   while(!mpu.begin()) {
     Serial.println("Failed to find MPU6050 chip");
     delay(10);
